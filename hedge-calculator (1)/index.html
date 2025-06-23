@@ -1,0 +1,440 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hedge Calculator</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+    /* Additional style for disabled button to match original React app's appearance */
+    button:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+    select {
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%236B7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 0.5rem center;
+      background-size: 1.5em 1.5em;
+      padding-right: 2.5rem; /* Ensure space for arrow */
+    }
+  </style>
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@^19.1.0",
+    "react-dom/": "https://esm.sh/react-dom@^19.1.0/",
+    "react/": "https://esm.sh/react@^19.1.0/"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+<body class="bg-emerald-50">
+  <div class="min-h-screen bg-emerald-50 text-gray-800 py-8 px-4 flex flex-col items-center">
+    <header class="text-center mb-10">
+      <div class="flex items-center justify-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 text-emerald-600">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75" />
+        </svg>
+        <h1 class="text-4xl font-bold text-gray-700">Hedge Calculator</h1>
+      </div>
+      <p class="text-gray-600 mt-2">Estimate your hedge trimming earnings with ease.</p>
+    </header>
+
+    <main class="w-full max-w-2xl space-y-6">
+      <!-- Hedge Dimensions Card -->
+      <section class="bg-white p-6 rounded-xl shadow-lg">
+        <div class="flex items-center gap-2 mb-4">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-emerald-700">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25A2.25 2.25 0 0 1 13.5 8.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25h-2.25a2.25 2.25 0 0 1-2.25-2.25v-2.25Z" />
+          </svg>
+          <h2 class="text-xl font-semibold text-gray-700">Hedge Dimensions</h2>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="flex flex-col">
+            <label for="length" class="mb-1 text-sm font-medium text-gray-600">Length</label>
+            <div class="flex items-center">
+              <input type="number" id="length" name="length" value="10" class="flex-grow p-2 border-b-2 border-gray-300 focus:border-emerald-500 outline-none transition-colors bg-transparent" min="0" step="any">
+              <span class="ml-2 text-sm text-gray-500">meters</span>
+            </div>
+          </div>
+          <div class="flex flex-col">
+            <label for="height" class="mb-1 text-sm font-medium text-gray-600">Height</label>
+            <div class="flex items-center">
+              <input type="number" id="height" name="height" value="2" class="flex-grow p-2 border-b-2 border-gray-300 focus:border-emerald-500 outline-none transition-colors bg-transparent" min="0" step="any">
+              <span class="ml-2 text-sm text-gray-500">meters</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Pricing Rate Card -->
+      <section class="bg-white p-6 rounded-xl shadow-lg">
+        <div class="flex items-center gap-2 mb-4">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-emerald-700">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 6v.75m0 3v.75m0 3v.75m0 3V18m-9-5.25h5.25M7.5 15h3M3.375 5.25c-.621 0-1.125.504-1.125 1.125v3.026a2.999 2.999 0 0 1 0 5.198v3.026c0 .621.504 1.125 1.125 1.125h17.25c.621 0 1.125-.504 1.125-1.125v-3.026a2.999 2.999 0 0 1 0-5.198V6.375c0-.621-.504-1.125-1.125-1.125H3.375Z" />
+          </svg>
+          <h2 class="text-xl font-semibold text-gray-700">Pricing Rate</h2>
+        </div>
+        <div class="flex flex-col">
+          <label for="hourlyRate" class="mb-1 text-sm font-medium text-gray-600">Hourly Rate (£/hour)</label>
+          <div class="flex items-center">
+            <input type="number" id="hourlyRate" name="hourlyRate" value="25" class="flex-grow p-2 border-b-2 border-gray-300 focus:border-emerald-500 outline-none transition-colors bg-transparent" min="0" step="any">
+          </div>
+        </div>
+        <p class="text-xs text-gray-500 mt-2">
+          Set your charge per hour of work.
+        </p>
+      </section>
+
+      <!-- Calculation Factors Card -->
+      <section class="bg-white p-6 rounded-xl shadow-lg">
+        <div class="flex items-center gap-2 mb-4">
+           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-emerald-700">
+             <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+           </svg>
+          <h2 class="text-xl font-semibold text-gray-700">Calculation Factors</h2>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-x-4 gap-y-6">
+          <div>
+            <label for="jobDifficulty" class="block mb-1 text-sm font-medium text-gray-600">Job Difficulty</label>
+            <select id="jobDifficulty" class="w-full p-2 border-b-2 border-gray-300 focus:border-emerald-500 outline-none transition-colors bg-transparent text-sm">
+              <option value="easy">Easy</option>
+              <option value="medium" selected>Medium</option>
+              <option value="hard">Hard</option>
+            </select>
+          </div>
+          <div>
+            <label for="hedgeCondition" class="block mb-1 text-sm font-medium text-gray-600">Hedge Condition</label>
+            <select id="hedgeCondition" class="w-full p-2 border-b-2 border-gray-300 focus:border-emerald-500 outline-none transition-colors bg-transparent text-sm">
+              <option value="light">Light Maintenance (Soft, new growth)</option>
+              <option value="annual">Annual Cut (Conifer, volume)</option>
+              <option value="heavy">Heavy Renovation (Overgrown, woody)</option>
+              <option value="dense">Dense Formal (Precision)</option>
+            </select>
+          </div>
+          <div>
+            <label for="cleanupEffort" class="block mb-1 text-sm font-medium text-gray-600">Cleanup Effort</label>
+            <select id="cleanupEffort" class="w-full p-2 border-b-2 border-gray-300 focus:border-emerald-500 outline-none transition-colors bg-transparent text-sm">
+              <option value="easy">Easy (Tarps, calm)</option>
+              <option value="standard" selected>Standard (Raking lawn/pavement)</option>
+              <option value="hard">Hard (Flowerbeds, gravel)</option>
+            </select>
+          </div>
+        </div>
+      </section>
+
+      <!-- Custom Expenses Card -->
+      <section class="bg-white p-6 rounded-xl shadow-lg">
+        <div class="flex items-center gap-2 mb-4">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-emerald-700">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25ZM6.75 12h.008v.008H6.75V12Zm0 3h.008v.008H6.75V15Zm0 3h.008v.008H6.75V18Z" />
+          </svg>
+          <h2 class="text-xl font-semibold text-gray-700">Custom Expenses</h2>
+        </div>
+        <div class="space-y-4">
+          <div id="expensesListContainer" class="space-y-2">
+            <!-- Expenses will be dynamically added here -->
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-end pt-2">
+            <div class="flex flex-col">
+              <label for="expenseName" class="mb-1 text-sm font-medium text-gray-600">Expense Name</label>
+              <input type="text" id="expenseName" name="expenseName" placeholder="e.g., Fuel" class="flex-grow p-2 border-b-2 border-gray-300 focus:border-emerald-500 outline-none transition-colors bg-transparent">
+            </div>
+            <div class="flex flex-col">
+              <label for="expenseAmount" class="mb-1 text-sm font-medium text-gray-600">Amount (£)</label>
+              <input type="number" id="expenseAmount" name="expenseAmount" placeholder="e.g., 10.50" class="flex-grow p-2 border-b-2 border-gray-300 focus:border-emerald-500 outline-none transition-colors bg-transparent" min="0" step="any">
+            </div>
+          </div>
+          <button id="addExpenseButton" class="mt-2 flex items-center gap-1 text-sm text-emerald-600 hover:text-emerald-800 font-medium transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm.75-11.25a.75.75 0 0 0-1.5 0v2.5h-2.5a.75.75 0 0 0 0 1.5h2.5v2.5a.75.75 0 0 0 1.5 0v-2.5h2.5a.75.75 0 0 0 0-1.5h-2.5v-2.5Z" clip-rule="evenodd" />
+            </svg>
+            Add Expense
+          </button>
+        </div>
+      </section>
+
+      <!-- Estimation Summary Card -->
+      <section class="bg-white p-6 rounded-xl shadow-lg">
+        <div class="flex items-center gap-2 mb-4">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-emerald-700">
+             <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 15.75V18m-7.5-6.75h.008v.008H8.25v-.008Zm0 3h.008v.008H8.25v-.008Zm0 3h.008v.008H8.25v-.008Zm0 3h.008v.008H8.25v-.008Zm6.75-4.5h.008v.008h-.008v-.008Zm0 3h.008v.008h-.008v-.008Zm0 3h.008v.008h-.008v-.008Zm0 3h.008v.008h-.008v-.008ZM12 21a9 9 0 1 1 0-18 9 9 0 0 1 0 18Z" />
+             <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6H8.25A2.25 2.25 0 0 0 6 8.25v7.5A2.25 2.25 0 0 0 8.25 18h7.5A2.25 2.25 0 0 0 18 15.75v-7.5A2.25 2.25 0 0 0 15.75 6Z" />
+          </svg>
+          <h2 class="text-xl font-semibold text-gray-700">Estimation Summary</h2>
+        </div>
+        <div class="space-y-2">
+          <div class="flex justify-between">
+            <span class="text-gray-600">Base Hedge Cost (Time-Based)</span>
+            <span id="summaryBaseCost" class="font-medium text-gray-700">£0.00</span>
+          </div>
+          
+          <div id="summaryCustomExpensesList" class="space-y-1">
+            <!-- Individual custom expenses will be listed here -->
+          </div>
+          
+          <div class="flex justify-between">
+            <span class="text-gray-600">Total Custom Expenses</span>
+            <span id="summaryTotalCustomExpenses" class="font-medium text-gray-700">£0.00</span>
+          </div>
+          <hr class="my-2 border-emerald-200"/>
+          <div class="flex justify-between text-lg">
+            <span class="font-semibold text-gray-800">Total</span>
+            <span id="summaryTotalCost" class="font-bold text-emerald-700">£0.00</span>
+          </div>
+        </div>
+         <p class="text-xs text-gray-500 mt-3">
+          This is an estimate. Actual earnings may vary. <br/>
+          (Estimated job duration: <span id="summaryJobDuration">0.00</span> hours,
+          Effective rate: <span id="effectiveHoursPerSqM">N/A</span> hours per m²)
+        </p>
+      </section>
+    </main>
+
+    <footer class="mt-12 text-center text-sm text-gray-500">
+      <p>&copy; <span id="currentYear"></span> Hedge Calculator. All rights reserved.</p>
+    </footer>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const SETUP_MINUTES = 10; // Fixed setup time in minutes
+      const MIN_CUTTING_RATE_PER_SQ_M = 1.5; // Minimum minutes per m² after adjustments
+      const MINIMUM_CHARGE = 80; // Minimum charge for a job in £
+
+      // Input elements
+      const lengthInput = document.getElementById('length');
+      const heightInput = document.getElementById('height');
+      const hourlyRateInput = document.getElementById('hourlyRate');
+      const expenseNameInput = document.getElementById('expenseName');
+      const expenseAmountInput = document.getElementById('expenseAmount');
+      const addExpenseButton = document.getElementById('addExpenseButton');
+
+      // Calculation factor select elements
+      const jobDifficultySelect = document.getElementById('jobDifficulty');
+      const hedgeConditionSelect = document.getElementById('hedgeCondition');
+      const cleanupEffortSelect = document.getElementById('cleanupEffort');
+
+      // Display elements for summary
+      const summaryBaseCostEl = document.getElementById('summaryBaseCost');
+      const summaryTotalCustomExpensesEl = document.getElementById('summaryTotalCustomExpenses');
+      const summaryTotalCostEl = document.getElementById('summaryTotalCost');
+      const summaryJobDurationEl = document.getElementById('summaryJobDuration');
+      const summaryCustomExpensesListEl = document.getElementById('summaryCustomExpensesList');
+      const effectiveHoursPerSqMEl = document.getElementById('effectiveHoursPerSqM');
+
+
+      // Expenses data
+      let expenses = []; // Array of { id, name, amount }
+
+      // --- Functions ---
+
+      function calculateSummary() {
+        const numLength = parseFloat(lengthInput.value) || 0;
+        const numHeight = parseFloat(heightInput.value) || 0;
+        const numHourlyRate = parseFloat(hourlyRateInput.value) || 0;
+
+        const area = numLength * numHeight;
+
+        let cuttingMinutesPerSqM = 0;
+        const selectedHedgeCondition = hedgeConditionSelect.value;
+        
+        switch (selectedHedgeCondition) {
+          case 'light':
+            cuttingMinutesPerSqM = 3;
+            break;
+          case 'annual':
+            cuttingMinutesPerSqM = 4;
+            break;
+          case 'heavy':
+            cuttingMinutesPerSqM = 8; 
+            break;
+          case 'dense':
+            cuttingMinutesPerSqM = 5;
+            break;
+          default:
+            cuttingMinutesPerSqM = 4; 
+        }
+
+        const selectedJobDifficulty = jobDifficultySelect.value;
+        switch (selectedJobDifficulty) {
+            case 'easy':
+                cuttingMinutesPerSqM -= 0.5;
+                break;
+            case 'medium':
+                break;
+            case 'hard':
+                cuttingMinutesPerSqM += 1.5;
+                break;
+        }
+        
+        if (area > 0) { 
+             cuttingMinutesPerSqM = Math.max(MIN_CUTTING_RATE_PER_SQ_M, cuttingMinutesPerSqM);
+        }
+
+        const totalRawCuttingMinutes = area * cuttingMinutesPerSqM;
+
+        let cleanupMultiplier = 1.0;
+        const selectedCleanupEffort = cleanupEffortSelect.value;
+        switch (selectedCleanupEffort) {
+          case 'easy':
+            cleanupMultiplier = 1.5; 
+            break;
+          case 'standard':
+            cleanupMultiplier = 2.0; 
+            break;
+          case 'hard':
+            cleanupMultiplier = 2.75; 
+            break;
+        }
+        
+        const cleanupModifiedCuttingMinutes = totalRawCuttingMinutes * cleanupMultiplier;
+        const totalJobMinutes = cleanupModifiedCuttingMinutes + SETUP_MINUTES;
+        const totalJobHours = totalJobMinutes / 60;
+        
+        const baseCost = totalJobHours * numHourlyRate;
+        const totalCustomExpenses = expenses.reduce((sum, expense) => sum + expense.amount, 0);
+        
+        let calculatedTotalCost = baseCost + totalCustomExpenses;
+        let finalTotalCostAfterMinimum = calculatedTotalCost;
+
+        if (finalTotalCostAfterMinimum < MINIMUM_CHARGE) {
+            finalTotalCostAfterMinimum = MINIMUM_CHARGE;
+        }
+        
+        summaryBaseCostEl.textContent = `£${baseCost.toFixed(2)}`;
+        summaryJobDurationEl.textContent = totalJobHours.toFixed(2);
+        
+        if (area > 0) {
+            effectiveHoursPerSqMEl.textContent = (totalJobHours / area).toFixed(2);
+        } else {
+            effectiveHoursPerSqMEl.textContent = 'N/A';
+        }
+        
+        renderSummaryCustomExpensesList();
+        summaryTotalCustomExpensesEl.textContent = `£${totalCustomExpenses.toFixed(2)}`;
+        summaryTotalCostEl.textContent = `£${finalTotalCostAfterMinimum.toFixed(2)}`; 
+      }
+      
+      function renderSummaryCustomExpensesList() {
+        summaryCustomExpensesListEl.innerHTML = ''; 
+        if (expenses.length > 0) {
+            expenses.forEach(expense => {
+                const expenseRow = document.createElement('div');
+                expenseRow.className = 'flex justify-between pl-4';
+                
+                const nameSpan = document.createElement('span');
+                nameSpan.className = 'text-gray-500 text-sm';
+                nameSpan.textContent = expense.name;
+                
+                const amountSpan = document.createElement('span');
+                amountSpan.className = 'font-medium text-gray-600 text-sm';
+                amountSpan.textContent = `£${expense.amount.toFixed(2)}`;
+                
+                expenseRow.appendChild(nameSpan);
+                expenseRow.appendChild(amountSpan);
+                summaryCustomExpensesListEl.appendChild(expenseRow);
+            });
+        }
+      }
+
+      function renderExpensesList() {
+        const expensesListContainer = document.getElementById('expensesListContainer');
+        expensesListContainer.innerHTML = ''; 
+
+        expenses.forEach(expense => {
+          const expenseDiv = document.createElement('div');
+          expenseDiv.className = 'flex justify-between items-center p-2 bg-emerald-50 rounded';
+          
+          const nameSpan = document.createElement('span');
+          nameSpan.className = 'text-sm text-gray-700';
+          nameSpan.textContent = expense.name;
+
+          const amountAndRemoveDiv = document.createElement('div');
+          amountAndRemoveDiv.className = 'flex items-center gap-2';
+
+          const amountSpan = document.createElement('span');
+          amountSpan.className = 'text-sm font-medium text-gray-700';
+          amountSpan.textContent = `£${expense.amount.toFixed(2)}`;
+
+          const removeButton = document.createElement('button');
+          removeButton.className = 'p-1 text-red-500 hover:text-red-700 transition-colors';
+          removeButton.setAttribute('aria-label', `Remove ${expense.name} expense`);
+          removeButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" /></svg>`;
+          removeButton.onclick = () => handleRemoveExpense(expense.id);
+
+          amountAndRemoveDiv.appendChild(amountSpan);
+          amountAndRemoveDiv.appendChild(removeButton);
+          expenseDiv.appendChild(nameSpan);
+          expenseDiv.appendChild(amountAndRemoveDiv);
+          expensesListContainer.appendChild(expenseDiv);
+        });
+      }
+
+      function handleAddExpense() {
+        const name = expenseNameInput.value.trim();
+        const amountStr = expenseAmountInput.value;
+        const amount = parseFloat(amountStr);
+
+        if (name && !isNaN(amount) && amount > 0) {
+          expenses.push({ id: Date.now().toString(), name, amount });
+          expenseNameInput.value = '';
+          expenseAmountInput.value = '';
+          renderExpensesList();
+          calculateSummary();
+          updateAddExpenseButtonState();
+        }
+      }
+
+      function handleRemoveExpense(id) {
+        expenses = expenses.filter(expense => expense.id !== id);
+        renderExpensesList();
+        calculateSummary();
+      }
+
+      function updateAddExpenseButtonState() {
+        const name = expenseNameInput.value.trim();
+        const amountStr = expenseAmountInput.value;
+        const amount = parseFloat(amountStr);
+        const isValidAmount = !isNaN(amount) && amountStr.trim() !== '' && amount > 0;
+
+        if (name && isValidAmount) {
+          addExpenseButton.disabled = false;
+        } else {
+          addExpenseButton.disabled = true;
+        }
+      }
+
+      // --- Event Listeners ---
+      lengthInput.addEventListener('input', calculateSummary);
+      heightInput.addEventListener('input', calculateSummary);
+      hourlyRateInput.addEventListener('input', calculateSummary);
+      addExpenseButton.addEventListener('click', handleAddExpense);
+      expenseNameInput.addEventListener('input', updateAddExpenseButtonState);
+      expenseAmountInput.addEventListener('input', updateAddExpenseButtonState);
+
+      jobDifficultySelect.addEventListener('change', calculateSummary); 
+      hedgeConditionSelect.addEventListener('change', calculateSummary);
+      cleanupEffortSelect.addEventListener('change', calculateSummary);
+
+      // --- Initial Setup ---
+      document.getElementById('currentYear').textContent = new Date().getFullYear();
+      calculateSummary(); 
+      updateAddExpenseButtonState(); 
+    });
+  </script>
+<script type="module" src="/index.tsx"></script>
+</body>
+</html>

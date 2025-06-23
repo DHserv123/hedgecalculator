@@ -1,0 +1,5 @@
+{
+  "name": "Hedge Calculator",
+  "description": "An application to estimate hedge trimming earnings based on dimensions, hourly rate, and custom expenses.",
+  "requestFramePermissions": []
+}
